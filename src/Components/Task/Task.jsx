@@ -1,13 +1,12 @@
 import "../Task/Task.css"
 
-export default function Task() {
+export default function Task({ title, completed }) {
 	return (
 		<div className="todo-item">
-			<input type="checkbox" className="todo-checkbox" />
+			<input type="checkbox" className="todo-checkbox" defaultChecked={completed} />
 			<label htmlFor="task" className="todo-text">
-				Какая-то задача
+				{title}
 			</label>
-			<button className="delete-btn">Удалить</button>
 		</div>
 	)
 }

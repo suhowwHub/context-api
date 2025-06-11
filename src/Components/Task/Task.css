@@ -66,25 +66,6 @@
 	text-decoration: line-through;
 }
 
-/* Кнопка удаления */
-.delete-btn {
-	padding: 10px 10px;
-	margin-left: 10px;
-	background-color: #ff4d4d;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	font-size: 14px;
-	cursor: pointer;
-	opacity: 0;
-	transition: opacity 0.3s, transform 0.2s;
-}
-
-/* Показываем кнопку удаления при наведении */
-.todo-item:hover .delete-btn {
-	opacity: 1;
-}
-
 /* Анимация нажатия кнопки удаления */
 .delete-btn:active {
 	transform: scale(0.9);
