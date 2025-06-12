@@ -13,6 +13,13 @@ h1 {
 	color: #333;
 }
 
+.task-counter-wrapper {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+	margin-bottom: 20px;
+}
+
 .update-button {
 	padding: 10px 15px;
 	margin: 15px 0 0;

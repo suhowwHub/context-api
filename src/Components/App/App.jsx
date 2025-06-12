@@ -1,20 +1,16 @@
 import "./App.css"
 import Loader from ".././Loader/Loader.jsx"
 import Task from ".././Task/Task.jsx"
-import TODOS_MOCK from "../../../todosMock.js"
 import { useEffect, useState } from "react"
 
 export default function App() {
+	const TODOS_URL = "http://localhost:3000/tasks"
 	const [todoList, setTodoList] = useState([])
 	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
 		setIsLoading(true)
-		new Promise((resolve) => {
-			setTimeout(() => {
-				resolve({ json: () => TODOS_MOCK })
-			}, 1500)
-		})
+		fetch(TODOS_URL)
 			.then((response) => response.json())
 			.then((responseDate) => {
 				setTodoList(responseDate)
@@ -22,11 +18,17 @@ export default function App() {
 			.finally(() => {
 				setIsLoading(false)
 			})
-	}, [todoList])
+	}, [TODOS_URL])
 
 	return (
 		<div className="todo-container">
 			<h1>Список дел</h1>
+			<div className="task-counter-wrapper">
+				<button className="update-button" onClick={() => setTodoList([])}>
+					Обновить
+				</button>
+				<div className="task-counter">Количество задач: {todoList.length}</div>
+			</div>
 			<div className="task-list">
 				{isLoading ? (
 					<Loader />
@@ -36,10 +38,6 @@ export default function App() {
 					))
 				)}
 			</div>
-			<div className="task-counter">Количество задач: {todoList.length}</div>
-			<button className="update-button" onClick={() => setTodoList([])}>
-				Обновить
-			</button>
 		</div>
 	)
 }
