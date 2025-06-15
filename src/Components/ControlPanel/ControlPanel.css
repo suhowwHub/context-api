@@ -29,26 +29,3 @@
 .add-btn:hover {
 	background-color: #45a049;
 }
-
-.search-btn {
-	background-color: #1399fc;
-}
-
-.search-btn:hover {
-	background-color: #1a82d1;
-}
-
-.button-container {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 25px;
-}
-
-.sort-button {
-	background-color: #b5b5b5;
-}
-
-.sort-button:hover {
-	background-color: #949494;
-}

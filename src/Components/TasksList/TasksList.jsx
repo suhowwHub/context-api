@@ -4,22 +4,17 @@ import Task from ".././Task/Task.jsx"
 import { updateTask, deleteTask } from "../../api.js"
 import { updateTaskList, findTask, deletedTaskFromList } from "../../utils.js"
 
-export default function TasksList({ tasks, setTasks, isLoading }) {
+export default function TasksList({ filteredTasks, setLoadedTasks, isLoading }) {
 	function onEditingTask(id, taskData) {
-		setTasks(updateTaskList(tasks, id, taskData))
+		setLoadedTasks(updateTaskList(filteredTasks, id, taskData))
 	}
 	function onSaveTask(id, taskData) {
-		setTasks(updateTaskList(tasks, id, taskData))
-		const { title } = findTask(tasks, id)
-		updateTask({ id, title })
-	}
-	function onCompletedTask(id, taskData) {
-		setTasks(updateTaskList(tasks, id, taskData))
-		const { completed } = findTask(tasks, id)
-		updateTask({ id, completed })
+		setLoadedTasks(updateTaskList(filteredTasks, id, taskData))
+		const { isEditing, ...otherTaskData } = findTask(filteredTasks, id)
+		updateTask({ id, ...otherTaskData, ...taskData })
 	}
 	function onDeleteTask(id) {
-		setTasks(deletedTaskFromList(tasks, id))
+		setLoadedTasks(deletedTaskFromList(filteredTasks, id))
 		deleteTask(id)
 	}
 
@@ -28,7 +23,7 @@ export default function TasksList({ tasks, setTasks, isLoading }) {
 			{isLoading ? (
 				<Loader />
 			) : (
-				tasks.map(({ title, completed, id, isEditing = false }) => (
+				filteredTasks.map(({ title, completed, id, isEditing = false }) => (
 					<Task
 						key={id}
 						id={id}
@@ -37,7 +32,6 @@ export default function TasksList({ tasks, setTasks, isLoading }) {
 						isEditing={isEditing}
 						onEdit={onEditingTask}
 						onSave={onSaveTask}
-						onCompleted={onCompletedTask}
 						onDelete={onDeleteTask}
 					/>
 				))

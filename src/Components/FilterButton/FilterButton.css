@@ -1,0 +1,22 @@
+.sort-button {
+	padding: 5px 10px;
+	font-size: 14px;
+	margin-left: 10px;
+	color: white;
+	background-color: #b5b5b5;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.sort-button:hover {
+	background-color: #949494;
+}
+
+.active {
+	background-color: #38aaff;
+}
+
+.active:hover {
+	background-color: #0c97ff;
+}

@@ -7,7 +7,6 @@ export default function Task({
 	isEditing,
 	onEdit,
 	onSave,
-	onCompleted,
 	onDelete,
 }) {
 	return (
@@ -34,7 +33,7 @@ export default function Task({
 						type="checkbox"
 						className="todo-checkbox"
 						defaultChecked={completed}
-						onChange={() => onCompleted(id, { completed: !completed })}
+						onChange={({ target }) => onSave(id, { completed: target.checked })}
 					/>
 					<div className="todo-text block">{title}</div>
 					<button

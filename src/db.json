@@ -1,19 +1,19 @@
 {
-	"tasks": [
-		{
-			"id": 1,
-			"title": "delectus aut autem",
-			"completed": true
-		},
-		{
-			"id": 2,
-			"title": "quis ut nam facilis et officia qui",
-			"completed": false
-		},
-		{
-			"id": 3,
-			"title": "fugiat veniam minus",
-			"completed": false
-		}
-	]
+  "tasks": [
+    {
+      "title": "Старая задача",
+      "completed": true,
+      "id": 1
+    },
+    {
+      "title": "Ещё одна новая задача",
+      "completed": true,
+      "id": 2
+    },
+    {
+      "title": "Новая задача",
+      "completed": false,
+      "id": 3
+    }
+  ]
 }
