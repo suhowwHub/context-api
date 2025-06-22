@@ -2,7 +2,7 @@ import "./App.css"
 import ControlPanel from "../ControlPanel/ControlPanel.jsx"
 import TasksList from "../TasksList/TasksList.jsx"
 import { useState, useEffect } from "react"
-import { readTasks, createTask } from "../../api.js"
+import { readTasks } from "../../api.js"
 
 export default function App() {
 	const [loadedTasks, setLoadedTasks] = useState([])

@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 
 export default function ControlPanel({
 	loadedTasks,
-	filteredTasks,
 	setFilteredTasks,
 	loadingTasksData,
 }) {
@@ -14,13 +13,23 @@ export default function ControlPanel({
 	const [timerId, setTimerId] = useState(null)
 	const [searchingTasks, setSearchingTasks] = useState(loadedTasks)
 
-	useEffect(() => setSearchingTasks(loadedTasks), [filteredTasks])
+	useEffect(() => setSearchingTasks(loadedTasks), [loadedTasks])
+
+	useEffect(() => {
+		const onCreateTaskKeyDown = (e) => {
+			if (e.key === "Enter") onCreateTask(newTitle)
+		}
+		document.addEventListener("keydown", onCreateTaskKeyDown)
+		return () => document.removeEventListener("keydown", onCreateTaskKeyDown)
+	}, [newTitle, onCreateTask])
 
 	function onCreateTask(title) {
-		const newTask = createNewTask(title)
-		createTask(newTask)
-		setNewTitle("")
-		loadingTasksData()
+		if (title) {
+			const newTask = createNewTask(title)
+			createTask(newTask)
+			setNewTitle("")
+			loadingTasksData()
+		}
 	}
 
 	function searchingTask(phrase) {
@@ -52,7 +61,7 @@ export default function ControlPanel({
 						setNewTitle(target.value)
 					}}
 				/>
-				<button className="button add-btn" onClick={() => onCreateTask(newTitle)}>
+				<button className="button add-btn" onClick={(e) => onCreateTask(newTitle, e)}>
 					Добавить
 				</button>
 			</div>
