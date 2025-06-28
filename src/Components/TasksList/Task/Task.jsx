@@ -1,14 +1,17 @@
-import "../Task/Task.css"
+import { useState } from "react"
+import "./Task.css"
 
 export default function Task({
 	title,
 	completed,
 	id,
-	isEditing,
-	onEdit,
 	onSave,
 	onDelete,
+	onEditing,
+	isEditing,
 }) {
+	const [currentTitle, setCurrentTitle] = useState(title)
+
 	return (
 		<div className={isEditing ? "todo-item editing" : "todo-item"}>
 			{isEditing ? (
@@ -16,9 +19,9 @@ export default function Task({
 					<input
 						type="text"
 						className="todo-text input editing"
-						defaultValue={title}
-						onChange={({ target }) => onEdit(id, { title: target.value })}
-						onBlur={() => onSave(id, { isEditing: false })}
+						defaultValue={currentTitle}
+						onChange={({ target }) => setCurrentTitle(target.value)}
+						onBlur={() => onSave(id, { title: currentTitle, isEditing: false })}
 					/>
 					<button
 						type="button"
@@ -35,11 +38,11 @@ export default function Task({
 						defaultChecked={completed}
 						onChange={({ target }) => onSave(id, { completed: target.checked })}
 					/>
-					<div className="todo-text block">{title}</div>
+					<div className="todo-text block">{currentTitle}</div>
 					<button
 						type="button"
 						className="edit-button save-button"
-						onClick={() => onEdit(id, { isEditing: true })}>
+						onClick={() => onEditing(id, { isEditing: true })}>
 						✎
 					</button>
 				</div>

@@ -1,44 +1,28 @@
 import "./App.css"
+import { TaskListContext } from "../Context/Context.jsx"
 import ControlPanel from "../ControlPanel/ControlPanel.jsx"
 import TasksList from "../TasksList/TasksList.jsx"
-import { useState, useEffect } from "react"
-import { readTasks } from "../../api.js"
+import Loader from "../TasksList/Loader/Loader.jsx"
+import { useReducer, useRef } from "react"
+// import { readTasks } from "../../api.js"
+import { reducerTasks } from "../utils/functions/reducerTasksFn.js"
 
 export default function App() {
-	const [loadedTasks, setLoadedTasks] = useState([])
-	const [filteredTasks, setFilteredTasks] = useState(loadedTasks)
-	const [isLoading, setIsLoading] = useState(false)
-
-	const loadingTasksData = () => {
-		setIsLoading(true)
-		readTasks()
-			.then((tasksListData) => {
-				setLoadedTasks(tasksListData)
-				setFilteredTasks(tasksListData)
-			})
-			.finally(() => setIsLoading(false))
-	}
-
-	useEffect(() => setFilteredTasks(loadedTasks), [loadedTasks])
-
-	useEffect(() => {
-		loadingTasksData()
-	}, [])
+	const loadedTasksRef = useRef([])
+	const [filteredTasks, dispatch] = useReducer(reducerTasks, [])
 
 	return (
 		<div className="todo-container">
 			<h1>Список дел</h1>
-			<ControlPanel
-				loadedTasks={loadedTasks}
-				filteredTasks={filteredTasks}
-				setFilteredTasks={setFilteredTasks}
-				loadingTasksData={loadingTasksData}
-			/>
-			<TasksList
-				filteredTasks={filteredTasks}
-				setLoadedTasks={setLoadedTasks}
-				isLoading={isLoading}
-			/>
+			<TaskListContext
+				value={{
+					loadedTasksRef: loadedTasksRef,
+					filteredTasks: filteredTasks,
+					dispatch: dispatch,
+				}}>
+				<ControlPanel />
+				<TasksList />
+			</TaskListContext>
 		</div>
 	)
 }

@@ -1,52 +1,60 @@
 import "./ControlPanel.css"
-import Filter from "../Filter/Filter"
-import { createNewTask, searchingCoincidences } from "../../utils.js"
-import { createTask } from "../../api.js"
-import { useEffect, useState } from "react"
+import Filter from "./Filter/Filter.jsx"
+import { TaskListContext } from "../Context/Context.jsx"
+import { createTask, readTasks } from "../../api.js"
+import { reducerTasks } from "../utils/index.js"
+import { sortTaskList, SEARCH_DELAY } from "./utils/index.js"
+import { useEffect, useState, useContext, useRef, useMemo } from "react"
 
-export default function ControlPanel({
-	loadedTasks,
-	setFilteredTasks,
-	loadingTasksData,
-}) {
-	const [newTitle, setNewTitle] = useState("")
-	const [timerId, setTimerId] = useState(null)
-	const [searchingTasks, setSearchingTasks] = useState(loadedTasks)
+export default function ControlPanel() {
+	const { loadedTasksRef, dispatch } = useContext(TaskListContext)
+	const [titleInput, setTitleInput] = useState("")
+	const timerIDRef = useRef()
+	const searchTaskList = useMemo(
+		() =>
+			reducerTasks(loadedTasksRef.current, {
+				type: "search_task",
+				phrase: titleInput,
+			}),
+		[titleInput]
+	)
 
-	useEffect(() => setSearchingTasks(loadedTasks), [loadedTasks])
+	const onCreateTask = (title) => {
+		if (title) {
+			const newTask = { title: title, completed: false, id: "" }
+			setTitleInput("")
+			dispatch({ type: "create_task", newTask: newTask })
+			createTask(newTask)
+			readTasks().then((tasksListData) => {
+				dispatch({ type: "write_tasks", data: tasksListData })
+			})
+		}
+	}
+
+	const onToggleFilter = (filterName) => {
+		const sortedTaksList = sortTaskList(searchTaskList, filterName)
+		dispatch({ type: "write_tasks", data: sortedTaksList })
+	}
+
+	const onDebounceSearchingTask = (inputValue) => {
+		if (timerIDRef.current) {
+			clearTimeout(timerIDRef.current)
+			timerIDRef.current = undefined
+		}
+		timerIDRef.current = setTimeout(
+			() => dispatch({ type: "write_tasks", data: searchTaskList }),
+			SEARCH_DELAY
+		)
+		setTitleInput(inputValue)
+	}
 
 	useEffect(() => {
 		const onCreateTaskKeyDown = (e) => {
-			if (e.key === "Enter") onCreateTask(newTitle)
+			if (e.key === "Enter") onCreateTask(titleInput)
 		}
 		document.addEventListener("keydown", onCreateTaskKeyDown)
 		return () => document.removeEventListener("keydown", onCreateTaskKeyDown)
-	}, [newTitle, onCreateTask])
-
-	function onCreateTask(title) {
-		if (title) {
-			const newTask = createNewTask(title)
-			createTask(newTask)
-			setNewTitle("")
-			loadingTasksData()
-		}
-	}
-
-	function searchingTask(phrase) {
-		if (phrase !== "") {
-			const suitableTasks = searchingCoincidences(loadedTasks, phrase)
-			setFilteredTasks(suitableTasks)
-			setSearchingTasks(suitableTasks)
-		} else {
-			setFilteredTasks(loadedTasks)
-			setSearchingTasks(loadedTasks)
-		}
-	}
-
-	function debounceSearchingTask(phrase) {
-		if (timerId) clearTimeout(timerId)
-		setTimerId(setTimeout(() => searchingTask(phrase), 700))
-	}
+	}, [])
 
 	return (
 		<div className="control-panel">
@@ -55,17 +63,16 @@ export default function ControlPanel({
 					type="text"
 					className="task"
 					placeholder="Добавить или найти задачу..."
-					value={newTitle}
-					onChange={({ target }) => {
-						debounceSearchingTask(target.value)
-						setNewTitle(target.value)
-					}}
+					value={titleInput}
+					onChange={({ target }) => onDebounceSearchingTask(target.value)}
 				/>
-				<button className="button add-btn" onClick={(e) => onCreateTask(newTitle, e)}>
+				<button
+					className="button add-btn"
+					onClick={(e) => onCreateTask(titleInput, e)}>
 					Добавить
 				</button>
 			</div>
-			<Filter searchingTasks={searchingTasks} setFilteredTasks={setFilteredTasks} />
+			<Filter onFilter={onToggleFilter} />
 		</div>
 	)
 }

@@ -2,22 +2,19 @@
   "tasks": [
     {
       "title": "Новая задача",
-      "completed": false,
+      "completed": true,
+      "isEditing": false,
       "id": 1
     },
     {
       "title": "Какая-то задача",
-      "completed": false,
+      "completed": true,
       "id": 2
     },
     {
-      "title": "Моё новое дело",
-      "completed": false,
-      "id": 3
-    },
-    {
       "title": "Какая-то ещё задача",
-      "completed": true,
+      "completed": false,
+      "isEditing": false,
       "id": 4
     }
   ]

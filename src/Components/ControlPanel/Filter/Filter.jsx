@@ -1,18 +1,15 @@
-import FilterButton from "../FilterButton/FilterButton"
-import "./Filter.css"
-import { toggleActiveButton, toggleFilter } from "../../utils.js"
+import FilterButton from "./FilterButton/FilterButton.jsx"
+import { toggleActiveButton } from "../utils/index.js"
 import { useState } from "react"
+import "./Filter.css"
 
-export default function Filter({ searchingTasks, setFilteredTasks }) {
+export default function Filter({ onFilter }) {
 	const [buttons, setButtons] = useState([
 		{ id: 1, name: "Все", isActive: true },
 		{ id: 2, name: "Активные", isActive: false },
 		{ id: 3, name: "Завершенные", isActive: false },
 	])
-	function onFilterTasks(filterName) {
-		setButtons(toggleActiveButton(buttons, filterName))
-		setFilteredTasks(toggleFilter(searchingTasks, filterName))
-	}
+
 	return (
 		<div className="button-container">
 			{buttons.map(({ id, name, isActive }) => (
@@ -20,7 +17,10 @@ export default function Filter({ searchingTasks, setFilteredTasks }) {
 					key={id}
 					name={name}
 					isActive={isActive}
-					onFilter={onFilterTasks}
+					onFilter={() => {
+						onFilter(name)
+						setButtons(toggleActiveButton(buttons, name))
+					}}
 				/>
 			))}
 		</div>
