@@ -1,20 +1,21 @@
 {
   "tasks": [
     {
+      "taskID": 1,
       "title": "Новая задача",
       "completed": true,
       "isEditing": false,
       "id": 1
     },
     {
+      "taskID": 2,
       "title": "Какая-то задача",
-      "completed": true,
+      "completed": false,
       "id": 2
     },
     {
       "title": "Какая-то ещё задача",
-      "completed": false,
-      "isEditing": false,
+      "completed": true,
       "id": 4
     }
   ]

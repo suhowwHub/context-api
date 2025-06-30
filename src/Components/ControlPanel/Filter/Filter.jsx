@@ -1,26 +1,22 @@
 import FilterButton from "./FilterButton/FilterButton.jsx"
-import { toggleActiveButton } from "../utils/index.js"
-import { useState } from "react"
 import "./Filter.css"
+import { TaskListContext } from "../../Context/Context.jsx"
+import { useContext } from "react"
 
-export default function Filter({ onFilter }) {
-	const [buttons, setButtons] = useState([
-		{ id: 1, name: "Все", isActive: true },
-		{ id: 2, name: "Активные", isActive: false },
-		{ id: 3, name: "Завершенные", isActive: false },
-	])
-
+export default function Filter() {
+	const { setStatusFilter } = useContext(TaskListContext)
+	const changeStatusFilter = (filterName) => {
+		if (filterName === "Все") setStatusFilter(filterName)
+		else if (filterName === "Активные") setStatusFilter(filterName)
+		else setStatusFilter(filterName)
+	}
 	return (
 		<div className="button-container">
-			{buttons.map(({ id, name, isActive }) => (
+			{["Все", "Активные", "Завершенные"].map((filterName) => (
 				<FilterButton
-					key={id}
-					name={name}
-					isActive={isActive}
-					onFilter={() => {
-						onFilter(name)
-						setButtons(toggleActiveButton(buttons, name))
-					}}
+					key={filterName}
+					filterName={filterName}
+					onChangeStatusFilter={changeStatusFilter}
 				/>
 			))}
 		</div>

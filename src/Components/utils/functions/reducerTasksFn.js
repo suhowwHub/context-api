@@ -1,23 +1,16 @@
 export const reducerTasks = (tasks, action) => {
 	switch (action.type) {
 		case 'write_tasks': {
-			return action.data
+			return action.payload
 		}
 		case 'edit_task': {
-			return tasks.map(task => task.id === action.id ? { ...task, ...action.data } : task)
+			return tasks.map(task => task.id === action.payload.id ? { ...task, ...action.payload.data } : task)
 		}
 		case 'create_task': {
-			return [...tasks, { ...action.newTask }]
+			return [...tasks, action.payload]
 		}
 		case 'delete_task': {
-			return tasks.filter(task => task.id !== action.id)
-		}
-		case 'search_task': {
-			return tasks.filter((task) =>
-				task.title.toLowerCase().includes(action.phrase.toLowerCase()))
-		}
-		default: {
-			console.log(tasks)
+			return tasks.filter(task => task.id !== action.payload)
 		}
 	}
 }

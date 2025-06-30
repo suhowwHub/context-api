@@ -1,51 +1,32 @@
 import { useState } from "react"
 import "./Task.css"
+import { EditorTask } from "./EditorTask/EditorTask"
+import { ReadTask } from "./TaskRead/TaskRead"
 
-export default function Task({
-	title,
-	completed,
-	id,
-	onSave,
-	onDelete,
-	onEditing,
-	isEditing,
-}) {
+export default function Task({ title, completed, id, onSave, onDelete, onEditing }) {
 	const [currentTitle, setCurrentTitle] = useState(title)
+	const [isEditing, setIsEditing] = useState(false)
 
 	return (
-		<div className={isEditing ? "todo-item editing" : "todo-item"}>
+		<div className={isEditing ? "todo-item-container editing" : "todo-item-container"}>
 			{isEditing ? (
-				<div className="todo-text-editor">
-					<input
-						type="text"
-						className="todo-text input editing"
-						defaultValue={currentTitle}
-						onChange={({ target }) => setCurrentTitle(target.value)}
-						onBlur={() => onSave(id, { title: currentTitle, isEditing: false })}
-					/>
-					<button
-						type="button"
-						className="edit-button delete-button"
-						onClick={() => onDelete(id)}>
-						×
-					</button>
-				</div>
+				<EditorTask
+					currentTitle={currentTitle}
+					setCurrentTitle={setCurrentTitle}
+					onSave={onSave}
+					onDelete={onDelete}
+					setIsEditing={setIsEditing}
+					id={id}
+				/>
 			) : (
-				<div className="todo-item-container">
-					<input
-						type="checkbox"
-						className="todo-checkbox"
-						defaultChecked={completed}
-						onChange={({ target }) => onSave(id, { completed: target.checked })}
-					/>
-					<div className="todo-text block">{currentTitle}</div>
-					<button
-						type="button"
-						className="edit-button save-button"
-						onClick={() => onEditing(id, { isEditing: true })}>
-						✎
-					</button>
-				</div>
+				<ReadTask
+					completed={completed}
+					currentTitle={currentTitle}
+					id={id}
+					onSave={onSave}
+					onEditing={onEditing}
+					setIsEditing={setIsEditing}
+				/>
 			)}
 		</div>
 	)

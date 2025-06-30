@@ -1,0 +1,57 @@
+.todo-item-read {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.todo-checkbox {
+	display: block;
+	position: relative;
+	cursor: pointer;
+	outline: none;
+	border-radius: 10px;
+	width: 30px;
+	max-width: 30px;
+	width: 30px;
+	min-width: 30px;
+	aspect-ratio: 1;
+	transition: all 0.2s;
+	border: 2px solid #ddd;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.todo-checkbox:checked {
+	background-color: #4caf50;
+	border-color: #4caf50;
+}
+
+.todo-checkbox::before {
+	content: "✓";
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	color: white;
+	font-size: 20px;
+	transition: transform 0.2s;
+}
+
+.todo-checkbox:checked::before {
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.block {
+	text-align: center;
+}
+.save-button {
+	font-size: 18px;
+	background-color: #1399fc;
+	opacity: 0;
+}
+.save-button:active {
+	background-color: #1a82d1;
+}
+.todo-item-read:hover .save-button {
+	opacity: 1;
+}

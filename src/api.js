@@ -15,7 +15,7 @@ function fetchRequest(method, { id, ...taskDate } = {}) {
 		}
 	}
 
-	return fetch(url, options).then(jsonDate => jsonDate.json())
+	return fetch(url, options).then((jsonDate) => jsonDate.json())
 }
 
 export const createTask = (taskDate) => fetchRequest("POST", taskDate)

@@ -1,1 +1,1 @@
-export const SEARCH_DELAY = 2000
+export const SEARCH_DELAY = 1000

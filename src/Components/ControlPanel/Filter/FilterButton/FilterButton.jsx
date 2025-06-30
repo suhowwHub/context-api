@@ -1,12 +1,15 @@
 import "./FilterButton.css"
+import { TaskListContext } from "../../../Context/Context"
+import { useContext } from "react"
 
-export default function FilterButton({ name, isActive, onFilter }) {
+export default function FilterButton({ filterName, onChangeStatusFilter }) {
+	const { statusFilter } = useContext(TaskListContext)
 	return (
 		<button
 			type="button"
-			className={isActive ? "sort-button active" : "sort-button"}
-			onClick={() => onFilter(name)}>
-			{name}
+			className={`sort-button ${statusFilter === filterName ? "active" : ""}`}
+			onClick={() => onChangeStatusFilter(filterName)}>
+			{filterName}
 		</button>
 	)
 }

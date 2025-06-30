@@ -1,0 +1,21 @@
+.todo-text-editor {
+	display: flex;
+	width: 100%;
+	column-gap: 5px;
+	align-items: center;
+	justify-content: space-between;
+}
+.input {
+	text-align: left;
+}
+.editing {
+	background-color: #f7f7f7;
+}
+.delete-button {
+	background-color: #fa5252;
+	font-size: 30px;
+}
+
+.delete-button:active {
+	background-color: #d34444;
+}
