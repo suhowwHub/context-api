@@ -2,9 +2,9 @@ import "./TasksList.css"
 import Task from "./Task/Task.jsx"
 import Loader from "../TasksList/Loader/Loader.jsx"
 import { useContext } from "react"
-import { TaskListContext } from "../Context/Context.jsx"
-import { updateTask, deleteTask } from "../../api.js"
-import { findTask } from "../utils/functions/findTaskFn.js"
+import { TaskListContext } from "../../Context/Context.jsx"
+import { updateTask, deleteTask } from "../../utils/functions/api.js"
+import { findTask } from "../../utils/functions/findTaskFn.js"
 
 export default function TasksList() {
 	const { loadedTasks, dispatch, filteredTasks, isLoading } = useContext(TaskListContext)

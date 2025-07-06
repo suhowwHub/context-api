@@ -1,6 +1,6 @@
 import FilterButton from "./FilterButton/FilterButton.jsx"
 import "./Filter.css"
-import { TaskListContext } from "../../Context/Context.jsx"
+import { TaskListContext } from "../../../Context/Context.jsx"
 import { useContext } from "react"
 
 export default function Filter() {

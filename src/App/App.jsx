@@ -1,10 +1,10 @@
 import "./App.css"
 import { TaskListContext } from "../Context/Context.jsx"
-import ControlPanel from "../ControlPanel/ControlPanel.jsx"
-import TasksList from "../TasksList/TasksList.jsx"
+import ControlPanel from "../Components/ControlPanel/ControlPanel.jsx"
+import TasksList from "../Components/TasksList/TasksList.jsx"
 import { useReducer, useState, useEffect } from "react"
-import { reducerTasks } from "../utils/functions/reducerTasksFn.js"
-import { readTasks } from "../../api.js"
+import { reducerTasks } from "../reducers/reducerTasks.js"
+import { readTasks } from "../utils/functions/api.js"
 
 export default function App() {
 	const [loadedTasks, dispatch] = useReducer(reducerTasks, [])
@@ -39,15 +39,15 @@ export default function App() {
 			<h1>Список дел</h1>
 			<TaskListContext
 				value={{
-					loadedTasks: loadedTasks,
-					dispatch: dispatch,
-					statusFilter: statusFilter,
-					setStatusFilter: setStatusFilter,
-					filteredTasks: filteredTasks,
-					searchQuery: searchQuery,
-					setSearchQuery: setSearchQuery,
-					isLoading: isLoading,
-					setIsLoading: setIsLoading,
+					loadedTasks,
+					dispatch,
+					statusFilter,
+					setStatusFilter,
+					filteredTasks,
+					searchQuery,
+					setSearchQuery,
+					isLoading,
+					setIsLoading,
 				}}>
 				<ControlPanel />
 				<TasksList />

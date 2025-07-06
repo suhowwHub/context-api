@@ -1,8 +1,8 @@
 import "./ControlPanel.css"
 import Filter from "./Filter/Filter.jsx"
-import { TaskListContext } from "../Context/Context.jsx"
-import { createTask } from "../../api.js"
-import { SEARCH_DELAY } from "./utils/constants/constants.js"
+import { TaskListContext } from "../../Context/Context.jsx"
+import { createTask } from "../../utils/functions/api.js"
+import { SEARCH_DELAY } from "../../utils/constants/constants.js"
 import { useEffect, useContext, useRef, useState } from "react"
 
 export default function ControlPanel() {
